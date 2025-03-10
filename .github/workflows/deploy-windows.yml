@@ -1,11 +1,10 @@
-name: Build Windows Executable
+name: Build and Release Windows Executable
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+    tags:
+      - 'v*'  # Executa quando uma tag começando com 'v' é criada (ex: v1.0.0)
+  workflow_dispatch:  # Mantém a execução manual para testes
 
 jobs:
   build:
@@ -41,6 +40,31 @@ jobs:
       run: |
         pyinstaller podium-windows.spec
     
+    # Criar arquivo ZIP com o executável para a release
+    - name: Create ZIP archive
+      run: |
+        cd dist
+        powershell Compress-Archive -Path "Podium - Sistema de Classificação para Monitoria.exe" -DestinationPath "Podium_Windows.zip"
+    
+    # Criar a release e fazer upload do ZIP
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        name: Podium ${{ github.ref_name }}
+        files: |
+          dist/Podium_Windows.zip
+        body: |
+          # Podium - Sistema de Classificação para Monitoria
+          
+          Versão ${{ github.ref_name }}
+          
+          ## Download:
+          - [Windows Executable](https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/Podium_Windows.zip)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    # Mantém o upload do artefato para depuração
     - name: Upload Windows Build
       uses: actions/upload-artifact@v4
       with:
