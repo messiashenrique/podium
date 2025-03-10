@@ -44,7 +44,7 @@ jobs:
     - name: Create ZIP archive
       run: |
         cd dist
-        powershell Compress-Archive -Path "Podium - Sistema de Classificação para Monitoria.exe" -DestinationPath "Podium_Windows.zip"
+        powershell Compress-Archive -Path "Podium.exe" -DestinationPath "Podium_Windows.zip"
     
     # Criar a release e fazer upload do ZIP
     - name: Create Release

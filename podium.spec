@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='Podium - Sistema de Classificação para Monitoria',
+    name='Podium',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -39,7 +39,7 @@ exe = EXE(
 )
 app = BUNDLE(
     exe,
-    name='Podium - Sistema de Classificação para Monitoria.app',
+    name='Podium.app',
     icon='icon.icns',
     bundle_identifier=None,
 )
