@@ -67,8 +67,8 @@ jobs:
         
         Write-Host "Usando SignTool em: $($SignTool.FullName)"
         
-        # Assinar o executável
-        & $SignTool.FullName sign /f "$env:CERT_PATH" /p "$env:CERT_PASSWORD" /t http://timestamp.digicert.com /d "Podium - Sistema de Classificação para Monitoria" /du "https://github.com/${{ github.repository }}" "dist\Podium.exe"
+        # Assinar o executável com algoritmo SHA256
+        & $SignTool.FullName sign /f "$env:CERT_PATH" /p "$env:CERT_PASSWORD" /fd sha256 /td sha256 /tr http://timestamp.digicert.com /d "Podium - Sistema de Classificação para Monitoria" /du "https://github.com/${{ github.repository }}" "dist\Podium.exe"
     
     # Criar arquivo ZIP com o executável para a release
     - name: Create ZIP archive
