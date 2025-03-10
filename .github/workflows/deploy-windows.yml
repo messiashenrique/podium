@@ -6,6 +6,10 @@ on:
       - 'v*'  # Executa quando uma tag começando com 'v' é criada (ex: v1.0.0)
   workflow_dispatch:  # Mantém a execução manual para testes
 
+# Adicionar permissões explícitas para o GITHUB_TOKEN
+permissions:
+  contents: write  # Necessário para criar releases
+
 jobs:
   build:
     runs-on: windows-latest
@@ -61,8 +65,6 @@ jobs:
           
           ## Download:
           - [Windows Executable](https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/Podium_Windows.zip)
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
     # Mantém o upload do artefato para depuração
     - name: Upload Windows Build
